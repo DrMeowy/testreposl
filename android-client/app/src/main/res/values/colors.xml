@@ -1,0 +1,8 @@
+<resources>
+    <color name="moon_bg">#080C15</color>
+    <color name="moon_panel">#121A2A</color>
+    <color name="moon_text">#F2F5FF</color>
+    <color name="moon_muted">#94A1BB</color>
+    <color name="moon_accent">#9A7BFF</color>
+    <color name="moon_line">#2A3854</color>
+</resources>
