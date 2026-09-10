@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/moon_bg">
-    <com.moonbridge.client.RemoteSurfaceView android:id="@+id/remoteSurface" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone" android:background="#000000" />
+    <com.moonbridge.client.RemoteVideoSurfaceView android:id="@+id/remoteSurface" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone" android:background="#000000" android:keepScreenOn="true" />
     <LinearLayout android:id="@+id/remoteControls" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|end" android:layout_margin="18dp" android:orientation="horizontal" android:visibility="gone">
         <Button android:id="@+id/keyboardButton" android:layout_width="wrap_content" android:layout_height="48dp" android:background="@drawable/primary_button" android:stateListAnimator="@null" android:text="KEYBOARD" android:textColor="#120E25" android:textSize="12sp" android:textStyle="bold" />
         <Button android:id="@+id/disconnectButton" android:layout_width="wrap_content" android:layout_height="48dp" android:layout_marginStart="8dp" android:background="@drawable/primary_button" android:stateListAnimator="@null" android:text="DISCONNECT" android:textColor="#120E25" android:textSize="12sp" android:textStyle="bold" />
