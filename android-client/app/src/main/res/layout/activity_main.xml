@@ -1,10 +1,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/moon_bg">
-
     <com.moonbridge.client.RemoteSurfaceView android:id="@+id/remoteSurface" android:layout_width="match_parent" android:layout_height="match_parent" android:visibility="gone" android:background="#000000" />
-
-    <Button android:id="@+id/disconnectButton" android:layout_width="wrap_content" android:layout_height="48dp" android:layout_gravity="top|end" android:layout_margin="18dp" android:background="@drawable/primary_button" android:stateListAnimator="@null" android:text="DISCONNECT" android:textColor="#120E25" android:textSize="12sp" android:textStyle="bold" android:visibility="gone" />
-
+    <LinearLayout android:id="@+id/remoteControls" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="top|end" android:layout_margin="18dp" android:orientation="horizontal" android:visibility="gone">
+        <Button android:id="@+id/keyboardButton" android:layout_width="wrap_content" android:layout_height="48dp" android:background="@drawable/primary_button" android:stateListAnimator="@null" android:text="KEYBOARD" android:textColor="#120E25" android:textSize="12sp" android:textStyle="bold" />
+        <Button android:id="@+id/disconnectButton" android:layout_width="wrap_content" android:layout_height="48dp" android:layout_marginStart="8dp" android:background="@drawable/primary_button" android:stateListAnimator="@null" android:text="DISCONNECT" android:textColor="#120E25" android:textSize="12sp" android:textStyle="bold" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/keyboardBar" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="bottom" android:orientation="horizontal" android:padding="10dp" android:background="#121A2A" android:visibility="gone">
+        <EditText android:id="@+id/keyboardInput" android:layout_width="0dp" android:layout_height="50dp" android:layout_weight="1" android:background="@drawable/input_background" android:hint="Type to send to PC" android:imeOptions="actionDone" android:inputType="textCapSentences|textMultiLine" android:paddingHorizontal="14dp" android:textColor="@color/moon_text" android:textColorHint="#677590" />
+        <Button android:id="@+id/keyboardCloseButton" android:layout_width="wrap_content" android:layout_height="50dp" android:layout_marginStart="8dp" android:background="@drawable/primary_button" android:stateListAnimator="@null" android:text="DONE" android:textColor="#120E25" android:textSize="12sp" android:textStyle="bold" />
+    </LinearLayout>
     <ScrollView android:id="@+id/connectScreen" android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center_vertical" android:padding="28dp">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MOONBRIDGE" android:textColor="@color/moon_accent" android:textSize="12sp" android:textStyle="bold" android:letterSpacing="0.18" />
@@ -13,12 +17,10 @@
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="26dp" android:orientation="vertical" android:background="@drawable/panel_background">
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PC ADDRESS" android:textColor="@color/moon_muted" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.12" />
                 <EditText android:id="@+id/hostInput" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="8dp" android:background="@drawable/input_background" android:hint="192.168.31.229:47100" android:paddingHorizontal="14dp" android:singleLine="true" android:inputType="textUri" android:textColor="@color/moon_text" android:textColorHint="#677590" android:textSize="15sp" />
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="PAIRING CODE" android:textColor="@color/moon_muted" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.12" />
-                <EditText android:id="@+id/codeInput" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="8dp" android:background="@drawable/input_background" android:hint="Six digits shown on the PC" android:paddingHorizontal="14dp" android:singleLine="true" android:inputType="number" android:maxLength="6" android:textColor="@color/moon_text" android:textColorHint="#677590" android:textSize="15sp" />
                 <Button android:id="@+id/connectButton" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="20dp" android:background="@drawable/primary_button" android:stateListAnimator="@null" android:text="CONNECT TO PC" android:textColor="#120E25" android:textSize="14sp" android:textStyle="bold" />
                 <TextView android:id="@+id/statusText" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:text="Ready to connect" android:textColor="@color/moon_muted" android:textSize="13sp" />
             </LinearLayout>
-            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Both devices must be on the same Wi-Fi. If this times out, open the address in the tablet browser and allow Moonbridge through Windows Firewall on Private networks." android:textColor="@color/moon_muted" android:textSize="12sp" android:lineSpacingExtra="3dp" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="18dp" android:text="Both devices must be on the same Wi-Fi. Pairing is disabled for simple trusted-LAN use." android:textColor="@color/moon_muted" android:textSize="12sp" android:lineSpacingExtra="3dp" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

@@ -8,9 +8,9 @@ Download the latest APK from the repository's [Releases](https://github.com/DrMe
 
 Start the PC host, enter its address in the app (for example `192.168.1.24:47100`), tap **OPEN**, then enter the six-digit pairing code shown on the PC.
 
-The app is a native Kotlin client. It connects directly to the host WebSocket, decodes desktop frames on-device, and sends touch/mouse input without loading a browser page. The host currently serves the low-latency LAN session over WebSocket and does not require an online account.
+The app is a native Kotlin client. It connects directly to the host WebSocket, decodes desktop frames on-device, sends touch/mouse input, plays host audio, and provides a keyboard control without loading a browser page. The host currently serves a low-latency LAN session over WebSocket and does not require an online account or pairing code.
 
-If the app reports that the PC is unreachable, first open `http://PC_ADDRESS:47100` in the tablet's browser. If that also times out, allow Moonbridge through Windows Defender Firewall for **Private networks** and make sure the tablet is not on a guest Wi-Fi network. The pairing code is entered directly in the Android app before connecting.
+If the app reports that the PC is unreachable, first open `http://PC_ADDRESS:47100` in the tablet's browser. If that also times out, allow Moonbridge through Windows Defender Firewall for **Private networks** and make sure the tablet is not on a guest Wi-Fi network. The Android client connects directly without a pairing code.
 
 ## Build locally
 

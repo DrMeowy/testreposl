@@ -16,13 +16,42 @@ class RemoteSurfaceView @JvmOverloads constructor(context: Context, attrs: Attri
     private var frame: Bitmap? = null
     private var screenWidth = 1920
     private var screenHeight = 1080
+    private var pendingFrame: Bitmap? = null
+    private var framePostPending = false
+    private val frameLock = Any()
     private var lastY = 0f
     private var multiTouch = false
     var sendEvent: ((String) -> Unit)? = null
 
     fun setScreenSize(width: Int, height: Int) { screenWidth = max(1, width); screenHeight = max(1, height); invalidate() }
     fun setFrame(bitmap: Bitmap) { frame?.recycle(); frame = bitmap; invalidate() }
-    fun clearFrame() { frame?.recycle(); frame = null; invalidate() }
+    fun offerFrame(bitmap: Bitmap) {
+        synchronized(frameLock) {
+            pendingFrame?.recycle()
+            pendingFrame = bitmap
+            if (framePostPending) return
+            framePostPending = true
+        }
+        postOnAnimation { renderLatestFrame() }
+    }
+
+    private fun renderLatestFrame() {
+        val next = synchronized(frameLock) {
+            val value = pendingFrame
+            pendingFrame = null
+            framePostPending = false
+            value
+        }
+        if (next != null) setFrame(next)
+        synchronized(frameLock) {
+            if (pendingFrame != null && !framePostPending) {
+                framePostPending = true
+                postOnAnimation { renderLatestFrame() }
+            }
+        }
+    }
+
+    fun clearFrame() { synchronized(frameLock) { pendingFrame?.recycle(); pendingFrame = null }; frame?.recycle(); frame = null; invalidate() }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
