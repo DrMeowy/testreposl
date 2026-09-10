@@ -25,6 +25,7 @@ import okhttp3.WebSocketListener
 import okio.ByteString
 import org.json.JSONObject
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
     private lateinit var remoteSurface: RemoteSurfaceView
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private var socket: WebSocket? = null
     private var connecting = false
     private var audioTrack: AudioTrack? = null
+    private val audioExecutor = Executors.newSingleThreadExecutor()
     private var suppressKeyboardWatcher = false
     private var lastKeyboardText = ""
 
@@ -97,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         socket = httpClient.newWebSocket(request, object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 val metrics = resources.displayMetrics
-                webSocket.send(JSONObject().put("type", "pair").put("code", "").put("width", metrics.widthPixels).put("height", metrics.heightPixels).toString())
+                webSocket.send(JSONObject().put("type", "pair").put("code", "").put("width", minOf(metrics.widthPixels, 1920)).put("height", minOf(metrics.heightPixels, 1080)).toString())
             }
             override fun onMessage(webSocket: WebSocket, text: String) {
                 try {
@@ -118,7 +120,8 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
                 if (bytes.size > 0 && bytes[0].toInt() == 0x41) {
-                    audioTrack?.write(bytes.toByteArray(), 1, bytes.size - 1)
+                    val audioPacket = bytes.toByteArray()
+                    audioExecutor.execute { audioTrack?.write(audioPacket, 1, audioPacket.size - 1, AudioTrack.WRITE_NON_BLOCKING) }
                 } else {
                     val bitmap = BitmapFactory.decodeByteArray(bytes.toByteArray(), 0, bytes.size)
                     if (bitmap != null) remoteSurface.offerFrame(bitmap)
@@ -153,5 +156,5 @@ class MainActivity : AppCompatActivity() {
         connecting = false; socket?.close(1000, "user disconnected"); socket = null; audioTrack?.pause(); remoteSurface.clearFrame(); remoteSurface.visibility = View.GONE; findViewById<View>(R.id.remoteControls).visibility = View.GONE; hideKeyboard(); connectScreen.visibility = View.VISIBLE; connectButton.isEnabled = true; statusText.setTextColor(Color.parseColor("#94A1BB")); statusText.text = message
     }
     override fun onBackPressed() { if (remoteSurface.visibility == View.VISIBLE || connecting) disconnect("Ready to connect") else super.onBackPressed() }
-    override fun onDestroy() { socket?.cancel(); audioTrack?.release(); httpClient.dispatcher.executorService.shutdown(); super.onDestroy() }
+    override fun onDestroy() { socket?.cancel(); audioTrack?.release(); audioExecutor.shutdownNow(); httpClient.dispatcher.executorService.shutdown(); super.onDestroy() }
 }
