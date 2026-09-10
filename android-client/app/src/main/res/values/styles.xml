@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.Moonbridge" parent="android:style/Theme.Material.NoActionBar">
+    <style name="Theme.Moonbridge" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:colorAccent">#9A7BFF</item>
         <item name="android:navigationBarColor">#080C15</item>
