@@ -1,0 +1,5 @@
+android-client/.gradle/
+android-client/build/
+android-client/app/build/
+.idea/
+*.iml

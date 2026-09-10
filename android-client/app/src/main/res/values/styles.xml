@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.Moonbridge" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">#9A7BFF</item>
+        <item name="android:navigationBarColor">#080C15</item>
+        <item name="android:statusBarColor">#080C15</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>
